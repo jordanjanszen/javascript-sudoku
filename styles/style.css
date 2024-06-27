@@ -72,44 +72,47 @@ h1 {
 .cell.selected,
 .cell.related {
   background-color: #f0f0f0;
+  outline-color: #172554;
 }
 
 /* Differentiate fixed and editable cells */
 .cell[contenteditable="true"] {
-  background-color: #fff;
+  background-color: rgb(248 250 252);
   color: #000;
-  border: 1px solid #000;
+  border: 1.5px solid #000;
 }
 
 .cell[contenteditable="false"] {
-  background-color: #ddd;
+  background-color: rgb(156 163 175);
   color: #000;
   font-weight: bold;
-  border: 1px solid #000;
+  border: 1.5px solid #000;
 }
 
-.cell:hover {
+.cell[contenteditable="true"]:hover {
   background-color: #f5f5f5; /* Light grey background on hover */
 }
 
 /* Vertical borders */
 #sudoku-grid .cell:nth-child(3n + 3) {
-  border-right: 3px solid #000;
+  border-right: 4px solid #000;
+}
+
+#sudoku-grid .cell:nth-child(3n + 1) {
+  border-left: 4px solid #000;
 }
 
 /* Horizontal borders */
 #sudoku-grid .cell:nth-child(n + 19):nth-child(-n + 27),
 #sudoku-grid .cell:nth-child(n + 46):nth-child(-n + 54),
 #sudoku-grid .cell:nth-child(n + 73):nth-child(-n + 81) {
-  border-bottom: 3px solid #000;
+  border-bottom: 4px solid #000;
 }
 
-/* Top horizontal border */
-#sudoku-grid .cell:nth-child(n + 0):nth-child(-n + 9) {
-  border-top: 3px solid #000;
+#sudoku-grid .cell:nth-child(n + 0):nth-child(-n + 9),
+#sudoku-grid .cell:nth-child(n + 28):nth-child(-n + 36),
+#sudoku-grid .cell:nth-child(n + 55):nth-child(-n + 63),
+#sudoku-grid .cell:nth-child(n + 82):nth-child(-n + 90) {
+  border-top: 4px solid #000;
 }
 
-/* Leftmost vertical borders */
-#sudoku-grid .cell:nth-child(9n + 1) {
-  border-left: 3px solid #000;
-}
