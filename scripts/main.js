@@ -120,6 +120,7 @@ function hasUniqueSolution(board) {
   return solutions === 1;
 };
 
+// Generate grid elements
 function generateGrid(difficulty) {
   sudokuGrid.innerHTML = ""; // Clear existing grid
   const completeBoard = generateCompleteBoard();
@@ -146,6 +147,7 @@ function generateGrid(difficulty) {
   }
 };
 
+// Ensure inputs by the user are valid
 function validateInput(event) {
   const cell = event.target;
   const value = cell.textContent;
@@ -199,6 +201,7 @@ function isValid(cell, value) {
   return true;
 };
 
+// Ensure grid has been filled with valid inputs
 function checkCompletion() {
   const cells = Array.from(sudokuGrid.children);
 

@@ -1,4 +1,7 @@
-/* Basic grid and cell styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 h1 {
   text-align: center;
 }
