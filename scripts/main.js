@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
   quitButton.addEventListener("click", quitGame);
 });
 
+/* ----- VARIABLES ----- */
+let currentDifficulty = "";
+
 /* ----- FUNCTIONS ----- */
 // Generate a completed Sudoku board
 function generateCompleteBoard() {
@@ -122,6 +125,7 @@ function hasUniqueSolution(board) {
 
 // Generate grid elements
 function generateGrid(difficulty) {
+  currentDifficulty = difficulty;
   sudokuGrid.innerHTML = ""; // Clear existing grid
   const completeBoard = generateCompleteBoard();
   const puzzle = createPuzzle(completeBoard, difficulty);
@@ -258,7 +262,7 @@ function showWinModal() {
 
 function playAgain() {
   winModal.style.display = "none";
-  generateGrid(difficulty);
+  generateGrid(currentDifficulty);
 };
 
 function quitGame() {
