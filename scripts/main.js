@@ -1,18 +1,5 @@
 /* ----- CONSTANTS ----- */
-const puzzles = {
-  easy: [
-    "530070000600195000098000060800060003400803001700020006060000280000419005000080079",
-    "100920000524010000000000070050008102000000000402700090060000000000030945000071006",
-  ],
-  medium: [
-    "030050040008010500460000012070502080000603000040109030250000098001020600080060020",
-    "200080300060070084030500209000105408000000000402706000301007040720040060004010003",
-  ],
-  hard: [
-    "000000907000420180000705026100904000050000040000507009920108000034059000507000000",
-    "100007090030020008009600500005300900010080002600004000300000010040000007007000300",
-  ],
-};
+
 
 /* ----- CACHED ELEMENT REFERENCES ----- */
 const easyButton = document.getElementById("easy");
@@ -33,19 +20,112 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ----- FUNCTIONS ----- */
+function generateCompleteBoard() {
+  const board = Array.from({ length: 9 }, () => Array(9).fill(0));
+  fillBoard(board);
+  return board;
+};
+
+function fillBoard(board) {
+  const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (board[row][col] === 0) {
+        nums.sort(() => Math.random() - 0.5); // Shuffle numbers
+        for (let num of nums) {
+          if (isValidInBoard(board, row, col, num)) {
+            board[row][col] = num;
+            if (fillBoard(board)) {
+              return true;
+            }
+            board[row][col] = 0;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+function isValidInBoard(board, row, col, num) {
+  for (let i = 0; i < 9; i++) {
+    if (
+      board[row][i] === num ||
+      board[i][col] === num ||
+      board[Math.floor(row / 3) * 3 + Math.floor(i / 3)][
+        Math.floor(col / 3) * 3 + (i % 3)
+      ] === num
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+function createPuzzle(board, difficulty) {
+  const levels = {
+    easy: 30, // Number of cells to remove for easy puzzles
+    medium: 40, // Number of cells to remove for medium puzzles
+    hard: 50, // Number of cells to remove for hard puzzles
+  };
+
+  const puzzle = board.map((row) => [...row]);
+  let cellsToRemove = levels[difficulty];
+
+  while (cellsToRemove > 0) {
+    const row = Math.floor(Math.random() * 9);
+    const col = Math.floor(Math.random() * 9);
+    if (puzzle[row][col] !== 0) {
+      const backup = puzzle[row][col];
+      puzzle[row][col] = 0;
+
+      if (!hasUniqueSolution(puzzle)) {
+        puzzle[row][col] = backup;
+      } else {
+        cellsToRemove--;
+      }
+    }
+  }
+  return puzzle;
+};
+
+function hasUniqueSolution(board) {
+  let solutions = 0;
+
+  function solve(board) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (board[row][col] === 0) {
+          for (let num = 1; num <= 9; num++) {
+            if (isValidInBoard(board, row, col, num)) {
+              board[row][col] = num;
+              solve(board);
+              board[row][col] = 0;
+            }
+          }
+          return;
+        }
+      }
+    }
+    solutions++;
+  }
+
+  solve(board);
+  return solutions === 1;
+};
+
 function generateGrid(difficulty) {
   sudokuGrid.innerHTML = ""; // Clear existing grid
+  const completeBoard = generateCompleteBoard();
+  const puzzle = createPuzzle(completeBoard, difficulty);
 
-  // Get a random puzzle from the selected difficulty
-  const puzzle =
-    puzzles[difficulty][Math.floor(Math.random() * puzzles[difficulty].length)];
-
-  // Generate a 9x9 grid
   for (let i = 0; i < 81; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    if (puzzle[i] !== "0") {
-      cell.textContent = puzzle[i];
+    const value = puzzle[Math.floor(i / 9)][i % 9];
+    if (value !== 0) {
+      cell.textContent = value;
       cell.setAttribute("contenteditable", "false");
     } else {
       cell.setAttribute("contenteditable", "true");
@@ -59,9 +139,6 @@ function generateGrid(difficulty) {
     cell.addEventListener("click", () => selectCell(cell));
     sudokuGrid.appendChild(cell);
   }
-
-  // Log 'difficulty level' to the console.
-  console.log(`Grid generated with difficulty: ${difficulty}`);
 };
 
 function validateInput(event) {
