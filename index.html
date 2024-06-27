@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Game</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Sudoku</h1>
+        <div id="winModal" class="modal">
+            <div class="modal-content">
+              <h2>Congratulations, You Won!</h2>
+              <button id="playAgain">Play Again</button>
+              <button id="quit">Quit</button>
+            </div>
+        </div>
+        <div id="difficulty">
+            <button id="easy" class="difficulty-button">Easy</button>
+            <button id="medium" class="difficulty-button">Medium</button>
+            <button id="hard" class="difficulty-button">Hard</button>
+        </div>
+        <div id="sudoku-grid"></div>
+    </div>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
