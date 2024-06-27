@@ -20,12 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ----- FUNCTIONS ----- */
+// Generate a completed Sudoku board
 function generateCompleteBoard() {
   const board = Array.from({ length: 9 }, () => Array(9).fill(0));
   fillBoard(board);
   return board;
 };
 
+// Fill the grid with valid, random inputs
 function fillBoard(board) {
   const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   for (let row = 0; row < 9; row++) {
@@ -48,6 +50,7 @@ function fillBoard(board) {
   return true;
 };
 
+// Ensure board inputs are valid
 function isValidInBoard(board, row, col, num) {
   for (let i = 0; i < 9; i++) {
     if (
@@ -63,6 +66,7 @@ function isValidInBoard(board, row, col, num) {
   return true;
 };
 
+// Generate a puzzle by removing inputs from a valid, completed board
 function createPuzzle(board, difficulty) {
   const levels = {
     easy: 30, // Number of cells to remove for easy puzzles
@@ -90,6 +94,7 @@ function createPuzzle(board, difficulty) {
   return puzzle;
 };
 
+// Ensure that the puzzle has 1 possible solution only
 function hasUniqueSolution(board) {
   let solutions = 0;
 
