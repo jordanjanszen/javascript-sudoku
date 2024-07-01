@@ -48,6 +48,22 @@ h1 {
   cursor: pointer;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+#grid-outline {
+  display: flex;
+  width: auto;
+  border: 3px solid black;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 14px 0px 0px;
+}
+
 #sudoku-grid {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
@@ -65,14 +81,13 @@ h1 {
   font-size: 20px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 /* Highlight the selected cell and related cells */
 .cell.selected,
 .cell.related {
   background-color: #f0f0f0;
-  outline-color: #172554;
 }
 
 /* Differentiate fixed and editable cells */
@@ -90,7 +105,8 @@ h1 {
 }
 
 .cell[contenteditable="true"]:hover {
-  background-color: #f5f5f5; /* Light grey background on hover */
+  background-color: rgb(209 213 219);
+  border: 2.5px solid black;
 }
 
 /* Vertical borders */
