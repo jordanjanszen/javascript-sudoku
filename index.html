@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sudoku Game</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.0.0/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.0.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
     <div id="app">
-        <h1>Sudoku</h1>
-        <div id="winModal" class="modal">
-            <div class="modal-content">
-              <h2>Congratulations, You Won!</h2>
-              <button id="playAgain">Play Again</button>
-              <button id="quit">Quit</button>
-            </div>
+      <h1>Sudoku</h1>
+      <div id="winModal" class="modal">
+        <div class="modal-content">
+          <h2>Congratulations, You Won!</h2>
+          <button id="playAgain">Play Again</button>
+          <button id="quit">Quit</button>
         </div>
-        <div id="difficulty">
-            <button id="easy" class="difficulty-button">Easy</button>
-            <button id="medium" class="difficulty-button">Medium</button>
-            <button id="hard" class="difficulty-button">Hard</button>
+      </div>
+      <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+          <p>Time's up! Game over!</p>
+          <button id="playAgainGameOver">Play Again</button>
+          <button id="quitGameOver">Quit</button>
         </div>
-        <div id="grid-outline">
-            <div id="sudoku-grid"></div>
-        </div>
+      </div>
+      <div id="difficulty">
+        <button id="easy" class="difficulty-button">Easy</button>
+        <button id="medium" class="difficulty-button">Medium</button>
+        <button id="hard" class="difficulty-button">Hard</button>
+      </div>
+      <div id="timer">05:00</div>
+      <div id="grid-outline">
+        <div id="sudoku-grid"></div>
+      </div>
     </div>
     <script src="scripts/main.js"></script>
-</body>
+  </body>
 </html>

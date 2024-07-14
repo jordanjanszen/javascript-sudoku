@@ -9,6 +9,9 @@ const sudokuGrid = document.getElementById("sudoku-grid");
 const winModal = document.getElementById("winModal");
 const playAgainButton = document.getElementById("playAgain");
 const quitButton = document.getElementById("quit");
+const playAgainGameOverButton = document.getElementById("playAgainGameOver");
+const quitGameOverButton = document.getElementById("quitGameOver");
+const timerDisplay = document.getElementById("timer");
 
 /* ----- EVENT LISTENERS ----- */
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,10 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   hardButton.addEventListener("click", () => generateGrid("hard"));
   playAgainButton.addEventListener("click", playAgain);
   quitButton.addEventListener("click", quitGame);
+  playAgainGameOverButton.addEventListener("click", playAgain);
+  quitGameOverButton.addEventListener("click", quitGame);
 });
 
 /* ----- VARIABLES ----- */
 let currentDifficulty = "";
+let timerInterval;
 
 /* ----- FUNCTIONS ----- */
 // Generate a completed Sudoku board
@@ -72,9 +78,9 @@ function isValidInBoard(board, row, col, num) {
 // Generate a puzzle by removing inputs from a valid, completed board
 function createPuzzle(board, difficulty) {
   const levels = {
-    easy: 30, // Number of cells to remove for easy puzzles
-    medium: 40, // Number of cells to remove for medium puzzles
-    hard: 50, // Number of cells to remove for hard puzzles
+    easy: 35, // Number of cells to remove for easy puzzles
+    medium: 45, // Number of cells to remove for medium puzzles
+    hard: 54, // Number of cells to remove for hard puzzles
   };
 
   const puzzle = board.map((row) => [...row]);
@@ -143,12 +149,34 @@ function generateGrid(difficulty) {
         validateInput(event);
         if (checkCompletion()) {
           showWinModal();
+          clearInterval(timerInterval);
         }
       });
     }
     cell.addEventListener("click", () => selectCell(cell));
     sudokuGrid.appendChild(cell);
   }
+  clearInterval(timerInterval);
+  startTimer(300, timerDisplay);
+};
+
+// Start the timer for a new game
+function startTimer(duration, display) {
+  let timer = duration, minutes, seconds;
+  timerInterval = setInterval(() => {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = "Time left: " + minutes + ":" + seconds;
+
+    if (--timer < 0) {
+      clearInterval(timerInterval);
+      showGameOverModal();
+    }
+  }, 1000);
 };
 
 // Ensure inputs by the user are valid
@@ -259,6 +287,10 @@ function clearHighlights() {
 function showWinModal() {
   winModal.style.display = "block";
 };
+
+function showGameOverModal() {
+  gameOverModal.style.display = "block";
+}
 
 function playAgain() {
   winModal.style.display = "none";
