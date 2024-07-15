@@ -1,6 +1,5 @@
 /* ----- CONSTANTS ----- */
 
-
 /* ----- CACHED ELEMENT REFERENCES ----- */
 const easyButton = document.getElementById("easy");
 const mediumButton = document.getElementById("medium");
@@ -12,6 +11,7 @@ const quitButton = document.getElementById("quit");
 const playAgainGameOverButton = document.getElementById("playAgainGameOver");
 const quitGameOverButton = document.getElementById("quitGameOver");
 const timerDisplay = document.getElementById("timer");
+const gameOverModal = document.getElementById("gameOverModal");
 
 /* ----- EVENT LISTENERS ----- */
 document.addEventListener("DOMContentLoaded", () => {
@@ -115,7 +115,7 @@ function hasUniqueSolution(board) {
             if (isValidInBoard(board, row, col, num)) {
               board[row][col] = num;
               solve(board);
-              board[row][col] = 0;
+              board[row][col] = 0; // Restore value for backtracking
             }
           }
           return;
@@ -162,7 +162,9 @@ function generateGrid(difficulty) {
 
 // Start the timer for a new game
 function startTimer(duration, display) {
-  let timer = duration, minutes, seconds;
+  let timer = duration,
+    minutes,
+    seconds;
   timerInterval = setInterval(() => {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -182,7 +184,11 @@ function startTimer(duration, display) {
 // Ensure inputs by the user are valid
 function validateInput(event) {
   const cell = event.target;
-  const value = cell.textContent;
+  let value = cell.textContent;
+  if (value.length > 1) {
+    value = value.slice(-1); // Ensure only last input is considered
+  }
+  cell.textContent = value;
   if (value < "1" || value > "9" || !isValid(cell, value)) {
     cell.textContent = "";
     event.preventDefault();
@@ -290,14 +296,17 @@ function showWinModal() {
 
 function showGameOverModal() {
   gameOverModal.style.display = "block";
-}
+};
 
 function playAgain() {
   winModal.style.display = "none";
+  gameOverModal.style.display = "none";
   generateGrid(currentDifficulty);
 };
 
 function quitGame() {
   winModal.style.display = "none";
+  gameOverModal.style.display = "none";
+  clearInterval(timerInterval);
   sudokuGrid.innerHTML = "";
 };
